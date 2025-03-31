@@ -1,78 +1,40 @@
 version: '3.8'
 
 services:
-  # === BASES DE DONNÉES ===
+  # === BASE DE DONNÉES POUR AUTEUR ===
   auteur-db:
     image: postgres:15
     container_name: auteur-db
     environment:
-      POSTGRES_DB: auteurdb              # nom de la BDD
-      POSTGRES_USER: postgres            # utilisateur
-      POSTGRES_PASSWORD: postgres        # mot de passe
+      POSTGRES_DB: auteurdb              # Nom de la base de données
+      POSTGRES_USER: postgres            # Nom d'utilisateur
+      POSTGRES_PASSWORD: postgres        # Mot de passe
     ports:
-      - "5433:5432"                      # port machine hôte : port container
+      - "5433:5432"                      # Port machine hôte : port du container
     volumes:
-      - auteur-data:/var/lib/postgresql/data  # persistance des données
+      - auteur-data:/var/lib/postgresql/data  # Volume pour persister les données
     networks:
-      - library-network
+      - library-network                  # Réseau Docker partagé
 
-  livre-db:
-    image: postgres:15
-    container_name: livre-db
-    environment:
-      POSTGRES_DB: livredb
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
-    ports:
-      - "5434:5432"
-    volumes:
-      - livre-data:/var/lib/postgresql/data
-    networks:
-      - library-network
-
-  # === SERVICES SPRING BOOT ===
+  # === SERVICE SPRING BOOT AUTEUR ===
   auteur-service:
     build:
-      context: ./auteur-service         # Dossier contenant le Dockerfile
+      context: ./auteur-service          # Dossier contenant le Dockerfile
     container_name: auteur-service
     ports:
-      - "8081:8081"                     # On expose le port du service
+      - "8081:8081"                      # Port exposé du microservice
     depends_on:
-      - auteur-db                       # Démarre la BDD avant ce service
-    networks:
-      - library-network
-
-  livre-service:
-    build:
-      context: ./livre-service
-    container_name: livre-service
-    ports:
-      - "8082:8082"
-    depends_on:
-      - livre-db
-    networks:
-      - library-network
-
-  gateway-service:
-    build:
-      context: ./gateway-service
-    container_name: gateway-service
-    ports:
-      - "8080:8080"                     # C’est l’entrée du projet (la gateway)
-    depends_on:
-      - auteur-service
-      - livre-service
+      - auteur-db                        # On attend que la BDD soit prête avant de démarrer ce service
     networks:
       - library-network
 
 # === VOLUMES ===
-# Pour que les bases de données conservent leurs données même après un arrêt
+# Volume pour conserver les données de la base même après arrêt du container
 volumes:
   auteur-data:
-  livre-data:
 
-# === RÉSEAU COMMUN ===
-# Tous les services sont sur le même réseau → ils peuvent se parler
+# === RÉSEAU DOCKER COMMUN ===
+# Permet aux services de communiquer entre eux (auteur-service <-> auteur-db)
 networks:
   library-network:
     driver: bridge
