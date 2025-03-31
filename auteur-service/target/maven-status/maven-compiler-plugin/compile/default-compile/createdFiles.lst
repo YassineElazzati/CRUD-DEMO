@@ -1,0 +1,13 @@
+com/example/auteur_service/entity/Auteur.class
+com/example/auteur_service/repository/AuteurRepository.class
+com/example/auteur_service/controller/AuteurController.class
+com/example/auteur_service/repository/LivreRepository.class
+com/example/auteur_service/AuteurServiceApplication.class
+com/example/auteur_service/entity/Livre.class
+com/example/auteur_service/controller/LivreController.class
+com/example/auteur_service/entity/Livre$LivreBuilder.class
+com/example/auteur_service/service/impl/AuteurServiceImpl.class
+com/example/auteur_service/service/AuteurService.class
+com/example/auteur_service/service/impl/LivreServiceImpl.class
+com/example/auteur_service/service/LivreService.class
+com/example/auteur_service/entity/Auteur$AuteurBuilder.class

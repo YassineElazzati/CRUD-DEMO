@@ -1,0 +1,11 @@
+/Users/yassineelazzati/microservices-library-gateway/auteur-service/src/main/java/com/example/auteur_service/AuteurServiceApplication.java
+/Users/yassineelazzati/microservices-library-gateway/auteur-service/src/main/java/com/example/auteur_service/controller/AuteurController.java
+/Users/yassineelazzati/microservices-library-gateway/auteur-service/src/main/java/com/example/auteur_service/controller/LivreController.java
+/Users/yassineelazzati/microservices-library-gateway/auteur-service/src/main/java/com/example/auteur_service/entity/Auteur.java
+/Users/yassineelazzati/microservices-library-gateway/auteur-service/src/main/java/com/example/auteur_service/entity/Livre.java
+/Users/yassineelazzati/microservices-library-gateway/auteur-service/src/main/java/com/example/auteur_service/repository/AuteurRepository.java
+/Users/yassineelazzati/microservices-library-gateway/auteur-service/src/main/java/com/example/auteur_service/repository/LivreRepository.java
+/Users/yassineelazzati/microservices-library-gateway/auteur-service/src/main/java/com/example/auteur_service/service/AuteurService.java
+/Users/yassineelazzati/microservices-library-gateway/auteur-service/src/main/java/com/example/auteur_service/service/LivreService.java
+/Users/yassineelazzati/microservices-library-gateway/auteur-service/src/main/java/com/example/auteur_service/service/impl/AuteurServiceImpl.java
+/Users/yassineelazzati/microservices-library-gateway/auteur-service/src/main/java/com/example/auteur_service/service/impl/LivreServiceImpl.java

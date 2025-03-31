@@ -1,0 +1,11 @@
+# On utilise une image officielle de Java (OpenJDK 17 basé sur Temurin)
+FROM eclipse-temurin:17-jdk
+
+# On définit le répertoire de travail dans le container
+WORKDIR /app
+
+# On copie le fichier .jar compilé dans le container
+COPY target/*.jar app.jar
+
+# On lance l'application avec le profil Docker
+ENTRYPOINT ["java", "-jar", "app.jar", "--spring.config.location=classpath:/application-docker.properties"]

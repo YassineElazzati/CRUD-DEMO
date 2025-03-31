@@ -1,0 +1,78 @@
+version: '3.8'
+
+services:
+  # === BASES DE DONNÉES ===
+  auteur-db:
+    image: postgres:15
+    container_name: auteur-db
+    environment:
+      POSTGRES_DB: auteurdb              # nom de la BDD
+      POSTGRES_USER: postgres            # utilisateur
+      POSTGRES_PASSWORD: postgres        # mot de passe
+    ports:
+      - "5433:5432"                      # port machine hôte : port container
+    volumes:
+      - auteur-data:/var/lib/postgresql/data  # persistance des données
+    networks:
+      - library-network
+
+  livre-db:
+    image: postgres:15
+    container_name: livre-db
+    environment:
+      POSTGRES_DB: livredb
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5434:5432"
+    volumes:
+      - livre-data:/var/lib/postgresql/data
+    networks:
+      - library-network
+
+  # === SERVICES SPRING BOOT ===
+  auteur-service:
+    build:
+      context: ./auteur-service         # Dossier contenant le Dockerfile
+    container_name: auteur-service
+    ports:
+      - "8081:8081"                     # On expose le port du service
+    depends_on:
+      - auteur-db                       # Démarre la BDD avant ce service
+    networks:
+      - library-network
+
+  livre-service:
+    build:
+      context: ./livre-service
+    container_name: livre-service
+    ports:
+      - "8082:8082"
+    depends_on:
+      - livre-db
+    networks:
+      - library-network
+
+  gateway-service:
+    build:
+      context: ./gateway-service
+    container_name: gateway-service
+    ports:
+      - "8080:8080"                     # C’est l’entrée du projet (la gateway)
+    depends_on:
+      - auteur-service
+      - livre-service
+    networks:
+      - library-network
+
+# === VOLUMES ===
+# Pour que les bases de données conservent leurs données même après un arrêt
+volumes:
+  auteur-data:
+  livre-data:
+
+# === RÉSEAU COMMUN ===
+# Tous les services sont sur le même réseau → ils peuvent se parler
+networks:
+  library-network:
+    driver: bridge
