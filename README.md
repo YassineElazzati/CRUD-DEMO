@@ -238,14 +238,6 @@ Utilisez **Postman**, **Insomnia** ou **curl** pour tester les routes :
 
 ---
 
-## ⚡ Lancer l'application avec Docker
-
-```bash
-docker-compose up --build
-```
-
-L'API sera disponible sur : `http://localhost:8081/api/auteurs`
-
 ## 😊 Merci !
 
 N'hésitez pas à adapter ce projet selon vos besoins ! Bon apprentissage ☕
