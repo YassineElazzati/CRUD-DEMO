@@ -246,17 +246,6 @@ docker-compose up --build
 
 L'API sera disponible sur : `http://localhost:8081/api/auteurs`
 
----
-
-## 🚀 Prochaines étapes
-
-- Ajouter des validations (ex: `@NotBlank` sur `nom`)
-- Ajouter Swagger pour documenter l'API
-- Ajouter une entité `Livre` reliée à `Auteur`
-- Intégration avec une gateway, Eureka, etc.
-
----
-
 ## 😊 Merci !
 
 N'hésitez pas à adapter ce projet selon vos besoins ! Bon apprentissage ☕
