@@ -134,4 +134,63 @@ Chaque méthode utilise le repository qui fait appel aux **requêtes SQL génér
 
 ---
 
-✅ Maintenant que la logique est prête, tu peux passer à l'étape suivante : le **contrôleur REST**, qui connecte tout ça à des requêtes HTTP (GET, POST, PUT, DELETE).
+## 🌐 Étape 3 : Le Contrôleur REST — Exposer l'API
+
+Le contrôleur REST permet de **lier une URL à une méthode Java**. Il reçoit les requêtes HTTP (GET, POST, etc.) et appelle les méthodes du service.
+
+### Exemple :
+```java
+@RestController
+@RequestMapping("/api/auteurs")
+public class AuteurController {
+
+    private final AuteurService service;
+
+    public AuteurController(AuteurService service) {
+        this.service = service;
+    }
+
+    @GetMapping
+    public List<Auteur> getAll() {
+        return service.getAll();
+    }
+
+    @GetMapping("/{id}")
+    public Auteur getById(@PathVariable Long id) {
+        return service.getById(id);
+    }
+
+    @PostMapping
+    public Auteur create(@RequestBody Auteur auteur) {
+        return service.create(auteur);
+    }
+
+    @PutMapping("/{id}")
+    public Auteur update(@PathVariable Long id, @RequestBody Auteur auteur) {
+        return service.update(id, auteur);
+    }
+
+    @DeleteMapping("/{id}")
+    public void delete(@PathVariable Long id) {
+        service.delete(id);
+    }
+}
+```
+
+### 🧠 Explication de chaque route :
+- `@GetMapping` → correspond à une requête HTTP GET (récupération de données)
+- `@PostMapping` → correspond à HTTP POST (création)
+- `@PutMapping` → correspond à HTTP PUT (modification)
+- `@DeleteMapping` → correspond à HTTP DELETE (suppression)
+
+### 📌 Exemple d'appel avec Postman ou curl :
+```http
+GET     http://localhost:8081/api/auteurs
+GET     http://localhost:8081/api/auteurs/1
+POST    http://localhost:8081/api/auteurs
+PUT     http://localhost:8081/api/auteurs/1
+DELETE  http://localhost:8081/api/auteurs/1
+```
+
+Grâce au contrôleur, ton application devient une vraie API REST utilisable depuis une interface front ou un outil de test !
+
