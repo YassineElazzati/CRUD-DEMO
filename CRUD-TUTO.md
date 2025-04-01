@@ -82,3 +82,56 @@ Spring se charge de **lier les paramètres automatiquement** (comme `id = 1`) sa
 
 ---
 
+## ⚙️ Étape 2 : Le Service — Logique métier
+
+### 📦 Qu'est-ce qu'un service ?
+Un **service** est une classe qui contient la logique métier, c’est-à-dire ce que l’application doit faire. Il fait le lien entre le contrôleur (les requêtes HTTP) et la base de données (via le repository).
+
+### Exemple avec l'entité `Auteur`
+```java
+@Service
+public class AuteurServiceImpl implements AuteurService {
+
+    private final AuteurRepository repository;
+
+    public AuteurServiceImpl(AuteurRepository repository) {
+        this.repository = repository;
+    }
+
+    public List<Auteur> getAll() {
+        return repository.findAll();
+    }
+
+    public Auteur getById(Long id) {
+        return repository.findById(id).orElse(null);
+    }
+
+    public Auteur create(Auteur auteur) {
+        return repository.save(auteur);
+    }
+
+    public Auteur update(Long id, Auteur auteur) {
+        Auteur existing = getById(id);
+        if (existing == null) return null;
+        existing.setNom(auteur.getNom());
+        return repository.save(existing);
+    }
+
+    public void delete(Long id) {
+        repository.deleteById(id);
+    }
+}
+```
+
+### 🧠 Explication de chaque méthode CRUD :
+- `getAll()` → SELECT * FROM auteur
+- `getById(Long id)` → SELECT * FROM auteur WHERE id = ?
+- `create(Auteur auteur)` → INSERT INTO auteur (nom) VALUES (?)
+- `update(Long id, Auteur auteur)` → UPDATE auteur SET nom = ? WHERE id = ?
+- `delete(Long id)` → DELETE FROM auteur WHERE id = ?
+
+Chaque méthode utilise le repository qui fait appel aux **requêtes SQL générées automatiquement** par Spring.
+
+---
+
+✅ Maintenant que la logique est prête, tu peux passer à l'étape suivante : le **contrôleur REST**, qui connecte tout ça à des requêtes HTTP (GET, POST, PUT, DELETE).
